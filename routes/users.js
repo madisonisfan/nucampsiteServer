@@ -5,9 +5,22 @@ const passport = require("passport");
 const authenticate = require("../authenticate");
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
-});
+router.get(
+  "/",
+  authenticate.verifyUser,
+  authenticate.verifyAdmin,
+
+  (req, res, next) => {
+    //res.send("respond with a resource");
+    User.find()
+      .then((users) => {
+        statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(users);
+      })
+      .catch((err) => next(err));
+  }
+);
 
 router.post("/signup", (req, res) => {
   User.register(
@@ -19,11 +32,11 @@ router.post("/signup", (req, res) => {
         res.setHeader("Content-Type", "application/json");
         res.json({ err: err });
       } else {
-        if (req.body.firstName) {
-          user.firstName = req.body.firstName;
+        if (req.body.firstname) {
+          user.firstname = req.body.firstname;
         }
-        if (req.body.lastName) {
-          user.lastName = req.body.lastName;
+        if (req.body.lastname) {
+          user.lastname = req.body.lastname;
         }
         user.save((err) => {
           if (err) {
