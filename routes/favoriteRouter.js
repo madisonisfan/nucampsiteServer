@@ -5,8 +5,6 @@ const cors = require("./cors");
 
 const favoriteRouter = express.Router();
 
-module.exports = favoriteRouter;
-
 //[{"_id":"60e621fcfe86391a266d9758"}, {"_id":"60e621fcfe86391a266d9757"}]
 
 favoriteRouter
@@ -149,3 +147,5 @@ favoriteRouter
       })
       .catch((err) => next(err));
   });
+
+module.exports = favoriteRouter;
